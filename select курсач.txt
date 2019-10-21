@@ -1,0 +1,7 @@
+SELECT games.idgame, games.name, genres.namegenre, price, developer.name, publisher.name, datarelease, agelimit.name
+FROM games
+LEFT JOIN genres ON games.idgenre = genres.idgenre
+LEFT JOIN developer ON games.iddeveloper = developer.iddeveloper
+LEFT JOIN publisher ON games.idpublisher = publisher.idpublisher
+LEFT JOIN agelimit ON games.idagelimit = agelimit.idagelimit
+

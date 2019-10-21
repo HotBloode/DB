@@ -1,0 +1,151 @@
+CREATE TABLE Users
+(
+IdUser SERIAL PRIMARY KEY,
+Login varchar(50) NOT NULL UNIQUE,
+Password varchar(50) NOT NULL UNIQUE,
+IdCountry int NOT NULL,
+Nickname varchar(50) NOT NULL,
+Mail varchar(50) NOT NULL UNIQUE,
+IdAccess int NOT NULL
+);
+
+CREATE TABLE Country
+(
+IdCountry SERIAL PRIMARY KEY,
+NameCountry varchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Purse
+(
+IdUser SERIAL PRIMARY KEY,
+Value float NOT NULL DEFAULT 0.0
+);
+
+CREATE TABLE access
+(
+idaccess SERIAL PRIMARY KEY,
+Name varchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Comments
+(
+IdComment SERIAL PRIMARY KEY,
+IdUser int NOT NULL,
+IdGame int NOT NULL,
+Text varchar(250) NOT NULL,
+DataComent timestamp NOT NULL DEFAULT current_date
+);
+
+CREATE TABLE GameLibrary
+(
+Id SERIAL PRIMARY KEY,
+IdGame int NOT NULL,
+IdUser int NOT NULL,
+purchaseDate timestamp NOT NULL DEFAULT current_date
+);
+
+CREATE TABLE Genres
+(
+IdGenre SERIAL PRIMARY KEY,
+NameGenre varchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Games
+(
+IdGame SERIAL PRIMARY KEY,
+Name varchar(50) NOT NULL UNIQUE,
+IdGenre int NOT NULL,
+Price float NOT NULL,
+idDeveloper int NOT NULL,
+idPublisher int NOT NULL,
+DataRelease timestamp NOT NULL,
+idAgeLimit int NOT NULL
+);
+
+CREATE TABLE Developer
+(
+idDeveloper SERIAL PRIMARY KEY,
+Name varchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Publisher
+(
+idPublisher SERIAL PRIMARY KEY,
+Name varchar(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE AgeLimit
+(
+idAgeLimit SERIAL PRIMARY KEY,
+Name varchar(50) NOT NULL UNIQUE
+);
+
+
+
+ALTER TABLE Users
+ADD CONSTRAINT UserIdCountry_CountryIdCountry FOREIGN KEY (IdCountry)
+REFERENCES Country (IdCountry)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Users
+ADD CONSTRAINT UserIdaccess_AccessIdaccess FOREIGN KEY (Idaccess)
+REFERENCES Access (Idaccess)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Users
+ADD CONSTRAINT UserIdUser_PurseIdUser FOREIGN KEY (IdUser)
+REFERENCES Purse (IdUser)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Games
+ADD CONSTRAINT GameIdPublisher_PublisherIdPublisher FOREIGN KEY (IdPublisher)
+REFERENCES Publisher (IdPublisher)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Games
+ADD CONSTRAINT GameIdDeveloper_DeveloperIdDeveloper FOREIGN KEY (Iddeveloper)
+REFERENCES developer (iddeveloper)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE gamelibrary
+ADD CONSTRAINT GamelibraryIdUser_UsersIdUser FOREIGN KEY (IdUser)
+REFERENCES Users (IdUser)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE gamelibrary
+ADD CONSTRAINT GameLibraryIdGame_GamesIdGame FOREIGN KEY (IdGame)
+REFERENCES Games (IdGame)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Comments
+ADD CONSTRAINT CommentsIdGame_GamesIdGame FOREIGN KEY (IdGame)
+REFERENCES Games (IdGame)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Comments
+ADD CONSTRAINT CommentsIdUser_UsersIdUser FOREIGN KEY (IdUser)
+REFERENCES Users (IdUser)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Games
+ADD CONSTRAINT GamesIdGenre_GenresIdGenre FOREIGN KEY (IdGenre)
+REFERENCES Genres (IdGenre)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+ALTER TABLE Games
+ADD CONSTRAINT GamesAgelimitIdAgeLimi_AgelimitIdAgeLimit FOREIGN KEY (idagelimit)
+REFERENCES Agelimit (idagelimit)
+ON UPDATE CASCADE 
+ON DELETE CASCADE;
+
+
